@@ -1,0 +1,7 @@
+import './components/font-loader.js'
+import './components/form.js'
+import './components/header.js'
+import './components/logo.js'
+import './components/main.js'
+import './components/nav.js'
+import './components/table.js'

@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1, li, input, button, label {
+    font-family: "Lexend", sans-serif;
+    font-optical-sizing: auto;
+}
+
+body {
+  background-color: hsl(210, 30%, 12%); /* Fondo oscuro */
+  color: hsl(210, 10%, 90%); /* Texto claro */
+  font-family: "Arial", sans-serif;
+}
