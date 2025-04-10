@@ -1,25 +1,25 @@
 class Logo extends HTMLElement {
-
-  constructor() {
+  constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
 
     this.data = []
   }
 
-  async connectedCallback() {
+  async connectedCallback () {
     await this.loadData()
     await this.render()
   }
 
-  loadData() {
+  loadData () {
     this.data = {
-      title: "Pedidos" 
+      title: 'Pedidos'
+    }
   }
-}
-  render() {
+
+  render () {
     this.shadow.innerHTML =
-    /*html*/`
+    /* html */`
       <style>
         h1, li, input, button, label {
           font-family: "Lexend", sans-serif;
@@ -40,4 +40,4 @@ class Logo extends HTMLElement {
   }
 }
 
-customElements.define('logo-component', Logo);
+customElements.define('logo-component', Logo)

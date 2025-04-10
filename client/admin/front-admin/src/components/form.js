@@ -1,26 +1,25 @@
 class Form extends HTMLElement {
-
-  constructor() {
+  constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
 
     this.data = []
   }
 
-  async connectedCallback() {
+  async connectedCallback () {
     await this.loadData()
     await this.render()
   }
 
-  loadData() {
+  loadData () {
     this.data = [
-      
+
     ]
   }
 
-  render() {
+  render () {
     this.shadow.innerHTML =
-      /*html*/`
+      /* html */`
       <style> 
 
         *{
@@ -130,8 +129,7 @@ class Form extends HTMLElement {
       </section>
 
           `
-      
   }
 }
 
-customElements.define('form-component', Form);
+customElements.define('form-component', Form)

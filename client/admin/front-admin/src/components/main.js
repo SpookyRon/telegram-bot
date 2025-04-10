@@ -1,19 +1,18 @@
 class Main extends HTMLElement {
-
-  constructor() {
+  constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
 
     this.data = []
   }
 
-  async connectedCallback() {
+  async connectedCallback () {
     await this.render()
   }
 
-  render() {
+  render () {
     this.shadow.innerHTML =
-      /*html*/`
+      /* html */`
       <style>
         *{
           box-sizing: border-box;
@@ -47,8 +46,7 @@ class Main extends HTMLElement {
       </main>
 
     `
-      
   }
 }
 
-customElements.define('main-component', Main);
+customElements.define('main-component', Main)

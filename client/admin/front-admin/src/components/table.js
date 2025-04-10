@@ -1,18 +1,17 @@
 class Table extends HTMLElement {
-
-  constructor() {
+  constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
 
     this.data = []
   }
 
-  async connectedCallback() {
+  async connectedCallback () {
     await this.loadData()
     await this.render()
   }
 
-  loadData() {
+  loadData () {
     this.data = [
       {
         name: 'Carlos',
@@ -29,9 +28,9 @@ class Table extends HTMLElement {
     ]
   }
 
-  render() {
+  render () {
     this.shadow.innerHTML =
-      /*html*/`
+      /* html */`
         <style> 
           
           *{
@@ -174,16 +173,13 @@ class Table extends HTMLElement {
 
       `
 
-    const tableBody = this.shadow.querySelector('.table-body');
-    const tableFooterInput = this.shadow.querySelector('.table-footer input');
+    const tableBody = this.shadow.querySelector('.table-body')
+    const tableFooterInput = this.shadow.querySelector('.table-footer input')
 
     this.data.forEach(user => {
-
-
       const tableRegister = document.createElement('div')
       tableRegister.classList.add('table-register')
       tableBody.appendChild(tableRegister)
-
 
       const tableRegisterButtons = document.createElement('div')
       tableRegisterButtons.classList.add('table-register-buttons')
@@ -227,9 +223,7 @@ class Table extends HTMLElement {
     })
 
     tableFooterInput.value = `${this.data.length} registros en total, mostrando 10 por página`
-
-
   }
 }
 
-customElements.define('table-component', Table);
+customElements.define('table-component', Table)

@@ -1,19 +1,18 @@
 class Header extends HTMLElement {
-
-  constructor() {
+  constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
 
     this.data = []
   }
 
-  async connectedCallback() {
+  async connectedCallback () {
     await this.render()
   }
 
-  render() {
+  render () {
     this.shadow.innerHTML =
-      /*html*/`
+      /* html */`
       <style>       
         header {
           display: flex;
@@ -30,8 +29,7 @@ class Header extends HTMLElement {
       </header>
 
           `
-      
   }
 }
 
-customElements.define('header-component', Header);
+customElements.define('header-component', Header)

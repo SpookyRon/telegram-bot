@@ -1,16 +1,16 @@
 class Nav extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
+  constructor () {
+    super()
+    this.attachShadow({ mode: 'open' })
   }
 
-  connectedCallback() {
-    this.render();
+  connectedCallback () {
+    this.render()
   }
 
-  render() {
-    this.shadowRoot.innerHTML = 
-       /*html*/`
+  render () {
+    this.shadowRoot.innerHTML =
+      /* html */`
       <style>
         .controller {
           border: none;
@@ -66,4 +66,4 @@ class Nav extends HTMLElement {
   }
 }
 
-customElements.define("nav-component", Nav);
+customElements.define('nav-component', Nav)
