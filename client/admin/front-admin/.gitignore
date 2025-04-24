@@ -1,3 +1,4 @@
+# aqui seran los archivos que no se subiran al repositorio
 .env
 /node_modules
 package-lock.json

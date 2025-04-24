@@ -1,12 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const adminUsers = require('./admin/users')
-const adminCustomers = require('./admin/customers')
-const adminFaqs = require('./admin/faqs')
-
-router.use('/admin/users', adminUsers)
-router.use('/admin/customers', adminCustomers)
-router.use('/admin/faqs', adminFaqs)
+// cada una de las siguientes rutas sera un endpoint que tendra la API
+// user para loggearse, y para registrarse, y para recuperar la contraseña, customer para el cliente, y admin para el administrador
+router.use('/admin/users', require('./admin/users'))
+router.use('/admin/customers', require('./admin/customers'))
+router.use('/admin/faqs', require('./admin/faqs'))
+router.use('/admin/products', require('./admin/products'))
 
 module.exports = router
