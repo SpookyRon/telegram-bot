@@ -6,6 +6,5 @@ const router = express.Router()
 router.use('/admin/users', require('./admin/users'))
 router.use('/admin/customers', require('./admin/customers'))
 router.use('/admin/faqs', require('./admin/faqs'))
-router.use('/admin/products', require('./admin/products'))
 
 module.exports = router
