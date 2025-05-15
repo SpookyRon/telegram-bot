@@ -5,6 +5,6 @@ const router = express.Router()
 // user para loggearse, y para registrarse, y para recuperar la contraseña, customer para el cliente, y admin para el administrador
 router.use('/admin/users', require('./admin/users'))
 router.use('/admin/customers', require('./admin/customers'))
-router.use('/admin/faqs', require('./admin/faqs'))
+router.use('/admin/bots', require('./admin/bots'))
 
 module.exports = router

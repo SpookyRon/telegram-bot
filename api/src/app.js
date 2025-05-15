@@ -4,6 +4,7 @@ const express = require('express')
 const app = express()
 const userAgentMiddleware = require('./middlewares/user-agent')
 const errorHandlerMiddleware = require('./middlewares/error-handler')
+const userTrackingMiddleware = require('./middlewares/user-tracking')
 // si llamo a la carpeta routes se ejecuta el index.js que se encuentra dentro de la carpeta routes, y si no existe, se ejecuta el archivo que se llama igual que la carpeta, en este caso routes.js
 const routes = require('./routes')
 
@@ -11,6 +12,7 @@ const routes = require('./routes')
 // express.json es un middleware que hace que cada vez que recibes un json automaticamente lo convierte a un objeto de javascript, y lo guarda en la propiedad body del request, para que puedas usarlo en el controlador
 app.use(express.json({ limit: '10mb', extended: true }))
 app.use(userAgentMiddleware)
+app.use(userTrackingMiddleware)
 
 app.use('/api', routes)
 
