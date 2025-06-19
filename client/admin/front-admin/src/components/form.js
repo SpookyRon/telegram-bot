@@ -7,7 +7,6 @@ class Form extends HTMLElement {
   }
 
   async connectedCallback () {
-    await this.loadData()
     await this.render()
   }
 
@@ -112,11 +111,11 @@ class Form extends HTMLElement {
             <button>General</button>
           </div>
           <div class="buttons">
-            <button>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>video-input-scart</title><path d="M20.6 2.2L17.3 2.4L13.8 4.4L13.3 3.5L2 10V17H3V19C3 20.1 3.9 21 5 21H15C16.1 21 17 20.1 17 19V17H18V10H17L16.8 9.6L20.3 7.6L22.1 4.8L20.6 2.2M15 17V19H5V17H15Z" /></svg>
+            <button  class="cleanButton">
+              <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>video-input-scart</title><path d="M20.6 2.2L17.3 2.4L13.8 4.4L13.3 3.5L2 10V17H3V19C3 20.1 3.9 21 5 21H15C16.1 21 17 20.1 17 19V17H18V10H17L16.8 9.6L20.3 7.6L22.1 4.8L20.6 2.2M15 17V19H5V17H15Z" /></svg>
             </button>
-            <button>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>content-save-all</title><path d="M17,7V3H7V7H17M14,17A3,3 0 0,0 17,14A3,3 0 0,0 14,11A3,3 0 0,0 11,14A3,3 0 0,0 14,17M19,1L23,5V17A2,2 0 0,1 21,19H7C5.89,19 5,18.1 5,17V3A2,2 0 0,1 7,1H19M1,7H3V21H17V23H3A2,2 0 0,1 1,21V7Z" /></svg>
+            <button class="saveButton">
+              <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>content-save-all</title><path d="M17,7V3H7V7H17M14,17A3,3 0 0,0 17,14A3,3 0 0,0 14,11A3,3 0 0,0 11,14A3,3 0 0,0 14,17M19,1L23,5V17A2,2 0 0,1 21,19H7C5.89,19 5,18.1 5,17V3A2,2 0 0,1 7,1H19M1,7H3V21H17V23H3A2,2 0 0,1 1,21V7Z" /></svg>
             </button>
           </div>
         </div>
@@ -128,7 +127,44 @@ class Form extends HTMLElement {
         </form>
       </section>
 
-          `
+    `
+
+    this.renderSaveButton()
+  }
+
+  renderSaveButton () {
+    this.shadow.querySelector('.saveButton').addEventListener('click', async event => {
+      event.preventDefault()
+      console.log('Guardando datos...')
+
+      const form = this.shadow.querySelector('form')
+      const formData = new FormData(form)
+      const formDataJson = {}
+
+      for (const [key, value] of formData.entries()) {
+        formDataJson[key] = value !== '' ? value : null
+      }
+
+      try {
+        const method = 'POST'
+
+        const response = await fetch('/api/admin/users', {
+          method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formDataJson)
+        })
+
+        if (!response.ok) {
+          throw new Error(`Error al guardar los datos: ${response.statusText}`)
+        }
+
+        const data = await response.json()
+      } catch (error) {
+        console.error('Error al guardar los datos:', error)
+      }
+    })
   }
 }
 

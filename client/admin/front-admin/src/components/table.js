@@ -11,21 +11,21 @@ class Table extends HTMLElement {
     await this.render()
   }
 
-  loadData () {
-    this.data = [
-      {
-        name: 'Carlos',
-        email: 'carlossedagambin@gmail.com',
-        createdAt: '2024-04-22',
-        updatedAt: '2024-04-22'
-      },
-      {
-        name: 'Carlos',
-        email: 'carlossedagambin@gmail.com',
-        createdAt: '2024-04-22',
-        updatedAt: '2024-04-22'
+  async loadData () {
+    try {
+      const response = await fetch('/api/admin/users')
+
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`)
       }
-    ]
+
+      this.data = await response.json()
+
+      console.log(this.data)
+    } catch (error) {
+      console.error('Error loading data:', error)
+      this.data = []
+    }
   }
 
   render () {
@@ -167,7 +167,7 @@ class Table extends HTMLElement {
           </div>
           <div class= "table-body"></div>
           <div class="table-footer">
-            <input type="text" readonly>
+            <input type="text" id="table-footer-info" readonly>
           </div>
         </section>
 
@@ -176,7 +176,7 @@ class Table extends HTMLElement {
     const tableBody = this.shadow.querySelector('.table-body')
     const tableFooterInput = this.shadow.querySelector('.table-footer input')
 
-    this.data.forEach(user => {
+    this.data.rows.forEach(register => {
       const tableRegister = document.createElement('div')
       tableRegister.classList.add('table-register')
       tableBody.appendChild(tableRegister)
@@ -186,6 +186,8 @@ class Table extends HTMLElement {
       tableRegister.appendChild(tableRegisterButtons)
 
       const registerButtonPen = document.createElement('button')
+      registerButtonPen.classList.add('edit-button')
+      registerButtonPen.dataset.id = register.id
       registerButtonPen.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <title>pen</title>
@@ -194,6 +196,8 @@ class Table extends HTMLElement {
       `
 
       const registerButtonTrash = document.createElement('button')
+      registerButtonTrash.classList.add('edit-button')
+      registerButtonTrash.dataset.id = register.id
       registerButtonTrash.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M3 6h18M6 6v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6M9 6V4h6v2" 
@@ -215,7 +219,7 @@ class Table extends HTMLElement {
       const ul = document.createElement('ul')
       tableRegisterList.appendChild(ul)
 
-      Object.entries(user).forEach(([key, value]) => {
+      Object.entries(register).forEach(([key, value]) => {
         const li = document.createElement('li')
         li.textContent = `${key}: ${value}`
         ul.appendChild(li)

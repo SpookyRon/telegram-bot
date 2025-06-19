@@ -33,7 +33,7 @@ exports.findAll = async (req, res, next) => {
 
     const result = await User.findAndCountAll({
       where: condition,
-      attributes: ['id', 'platform', 'name', 'description', 'token', 'createdAt', 'updatedAt'],
+      attributes: ['name', 'email', 'createdAt', 'updatedAt'],
       limit,
       offset,
       order: [['createdAt', 'DESC']]
