@@ -18,7 +18,7 @@ class Header extends HTMLElement {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 15px;
+          padding: 0 1rem;
           background: hsl(240, 40%, 20%);
           color: hsl(0, 0%, 100%);
         }

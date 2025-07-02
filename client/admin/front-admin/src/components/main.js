@@ -22,7 +22,7 @@ class Main extends HTMLElement {
           display: grid;
           grid-template-columns: 1fr 2fr;
           padding: 20px;
-          gap: 5rem;
+          gap: 2rem;
           background-color: hsl(210, 30%, 16%); 
 
         }

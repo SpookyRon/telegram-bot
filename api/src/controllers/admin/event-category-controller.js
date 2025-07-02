@@ -1,10 +1,10 @@
 const sequelizeDb = require('../../models/sequelize')
-const User = sequelizeDb.User
+const EventCategory = sequelizeDb.EventCategory
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = async (req, res, next) => {
   try {
-    const data = await User.create(req.body)
+    const data = await EventCategory.create(req.body)
     res.status(200).send(data)
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
@@ -13,7 +13,7 @@ exports.create = async (req, res, next) => {
     next(err)
   }
 }
-// req.query es cuando pones un ? en la url, por ejemplo: http://localhost:3000/api/v1/admin/users?name=Juan&age=30
+// req.query es cuando pones un ? en la url, por ejemplo: http://localhost:3000/api/v1/admin/EventCategorys?name=Juan&age=30
 exports.findAll = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1
@@ -31,9 +31,9 @@ exports.findAll = async (req, res, next) => {
       ? { [Op.and]: [whereStatement] }
       : {}
 
-    const result = await User.findAndCountAll({
+    const result = await EventCategory.findAndCountAll({
       where: condition,
-      attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'name', 'createdAt', 'updatedAt'],
       limit,
       offset,
       order: [['createdAt', 'DESC']]
@@ -52,12 +52,12 @@ exports.findAll = async (req, res, next) => {
   }
 }
 // para hacer una llamada de post con finAll tengo que usar postman, y en el body tengo que poner el json que quiero enviar al servidor, y en el header tengo que poner el content-type: application/json, para que el servidor sepa que le estoy enviando un json, y no un string o un objeto de javascript
-// los params los tienes que declarar en la ruta, por ejemplo: http://localhost:3000/api/v1/admin/users/1
+// los params los tienes que declarar en la ruta, por ejemplo: http://localhost:3000/api/v1/admin/EventCategorys/1
 // para abrir el servidor en la consola tengo que usar el comando npm run dev, y para abrir el postman tengo que usar el comando npm run postman, y para abrir la aplicacion en el navegador tengo que usar el comando npm run start
 exports.findOne = async (req, res, next) => {
   try {
     const id = req.params.id
-    const data = await User.findByPk(id)
+    const data = await EventCategory.findByPk(id)
 
     if (!data) {
       const err = new Error()
@@ -76,7 +76,7 @@ exports.findOne = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     const id = req.params.id
-    const [numberRowsAffected] = await User.update(req.body, { where: { id } })
+    const [numberRowsAffected] = await EventCategory.update(req.body, { where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()
@@ -101,7 +101,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const id = req.params.id
-    const numberRowsAffected = await User.destroy({ where: { id } })
+    const numberRowsAffected = await EventCategory.destroy({ where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()
