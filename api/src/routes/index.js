@@ -8,5 +8,6 @@ router.use('/admin/customers', require('./admin/customers'))
 router.use('/admin/bots', require('./admin/bots'))
 router.use('/admin/faqs', require('./admin/faqs'))
 router.use('/admin/eventCategories', require('./admin/eventCategories'))
+router.use('/admin/promoters', require('./admin/promoters'))
 
 module.exports = router
