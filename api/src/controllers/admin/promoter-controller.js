@@ -31,6 +31,8 @@ exports.findAll = async (req, res, next) => {
       ? { [Op.and]: [whereStatement] }
       : {}
 
+    // aqui en el whereStatement es donde se escribe la query taltaltal&taltaltal&...
+
     const result = await Promoter.findAndCountAll({
       where: condition,
       attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],

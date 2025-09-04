@@ -2,7 +2,7 @@ import { store } from '../../redux/store.js'
 import { showFormElement } from '../../redux/crud-slice.js'
 
 class PromoterTable extends HTMLElement {
-  constructor () {
+  constructor() {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
     this.endpoint = '/api/admin/promoters'
@@ -10,7 +10,7 @@ class PromoterTable extends HTMLElement {
     this.unsubscribe = null
   }
 
-  async connectedCallback () {
+  async connectedCallback() {
     this.unsubscribe = store.subscribe(() => {
       const currentState = store.getState()
 
@@ -29,13 +29,13 @@ class PromoterTable extends HTMLElement {
     this.render()
   }
 
-  disconnectedCallback () {
+  disconnectedCallback() {
     if (this.unsubscribe) {
       this.unsubscribe()
     }
   }
 
-  async loadData (endpoint = this.endpoint) {
+  async loadData(endpoint = this.endpoint) {
     try {
       const response = await fetch(endpoint)
 
@@ -50,7 +50,7 @@ class PromoterTable extends HTMLElement {
     }
   }
 
-  render () {
+  render() {
     this.shadow.innerHTML =
       /* html */`
       <style>
@@ -312,122 +312,128 @@ class PromoterTable extends HTMLElement {
       tableRegisterList.classList.add('table-register-list')
       tableRegisterData.appendChild(tableRegisterList)
 
-      const registerInfo = document.createElement('div')
-      registerInfo.classList.add('table-register-data')
-      registerInfo.innerHTML = `
-        <li><strong>Nombre:</strong> ${register.name}</li>
-        <li><strong>Email:</strong> ${register.email}</li>
-      `
-      tableRegister.appendChild(registerInfo)
+      const fieldLabels = {
+        name: 'Nombre',
+        email: 'Correo electrónico',
+        createdAt: 'Fecha de creación',
+        updatedAt: 'Última actualización',
+      }
+
+      const displayOrder = ['name', 'email', 'createdAt', 'updatedAt']
 
       const ul = document.createElement('ul')
       tableRegisterList.appendChild(ul)
 
-      Object.entries(register).forEach(([key, value]) => {
-        const listItem = document.createElement('li')
-        listItem.textContent = `${key}: ${value}`
-        dataList.appendChild(listItem)
+      displayOrder.forEach((key) => {
+        if (register[key]) {
+          const listItem = document.createElement('li')
+          const translatedKey = fieldLabels[key] || key
+          listItem.textContent = `${translatedKey}: ${register[key]}`
+          ul.appendChild(listItem)
+        }
+
+        tableRegisterData.appendChild(dataList)
       })
 
-      tableRegisterData.appendChild(dataList)
+      this.renderButtons()
     })
+    
 
-    this.renderButtons()
-  }
+    renderButtons() {
+      this.attachEventListeners()
+    }
 
-  renderButtons () {
-    this.attachEventListeners()
-  }
+    this.attachEventListeners() {
+      this.shadow.querySelectorAll('.pagination-button').forEach(button => {
+        if (!button.classList.contains('disabled')) {
+          button.addEventListener('click', async (e) => {
+            const page = button.dataset.page
+            await this.loadData(`${this.endpoint}?page=${page}`)
+            this.render()
+          })
+        }
+      })
+    }
 
-  attachEventListeners () {
-    this.shadow.querySelectorAll('.pagination-button').forEach(button => {
-      if (!button.classList.contains('disabled')) {
-        button.addEventListener('click', async (e) => {
-          const page = button.dataset.page
-          await this.loadData(`${this.endpoint}?page=${page}`)
-          this.render()
-        })
-      }
-    })
+      this.shadow.querySelector('.table').addEventListener('click', async event => {
+        if (event.target.closest('.edit-button')) {
+          const element = event.target.closest('.edit-button')
+          const id = element.dataset.id
+          const endpoint = `${this.endpoint}/${id}`
 
-    this.shadow.querySelector('.table').addEventListener('click', async event => {
-      if (event.target.closest('.edit-button')) {
-        const element = event.target.closest('.edit-button')
-        const id = element.dataset.id
-        const endpoint = `${this.endpoint}/${id}`
+          try {
+            const response = await fetch(endpoint)
 
-        try {
-          const response = await fetch(endpoint)
+            if (response.status === 500 || response.status === 404) {
+              throw response
+            }
 
-          if (response.status === 500 || response.status === 404) {
-            throw response
+            const data = await response.json()
+
+            const formElement = {
+              endPoint: this.endpoint,
+              data
+            }
+
+            store.dispatch(showFormElement(formElement))
+          } catch (error) {
+            document.dispatchEvent(new CustomEvent('notice', {
+              detail: {
+                message: 'No se han podido recuperar el dato',
+                type: 'error'
+              }
+            }))
           }
+        }
 
-          const data = await response.json()
+        if (event.target.closest('.delete-button')) {
+          const element = event.target.closest('.delete-button')
+          const id = element.dataset.id
 
-          const formElement = {
-            endPoint: this.endpoint,
-            data
-          }
-
-          store.dispatch(showFormElement(formElement))
-        } catch (error) {
-          document.dispatchEvent(new CustomEvent('notice', {
+          document.dispatchEvent(new CustomEvent('showDeleteModal', {
             detail: {
-              message: 'No se han podido recuperar el dato',
-              type: 'error'
+              endpoint: this.endpoint,
+              elementId: id
             }
           }))
         }
-      }
 
-      if (event.target.closest('.delete-button')) {
-        const element = event.target.closest('.delete-button')
-        const id = element.dataset.id
-
-        document.dispatchEvent(new CustomEvent('showDeleteModal', {
-          detail: {
-            endpoint: this.endpoint,
-            elementId: id
-          }
-        }))
-      }
-
-      if (event.target.closest('.filter-button')) {
-        document.dispatchEvent(new CustomEvent('showFilterModal'))
-      }
-
-      if (event.target.closest('.pagination-button') && !event.target.closest('.pagination-button').classList.contains('disabled')) {
-        const page = event.target.closest('.pagination-button').dataset.page
-        let endpoint = `${this.endpoint}?page=${page}`
-
-        if (this.filterQuery) {
-          endpoint = `${endpoint}&${this.filterQuery}`
+        if (event.target.closest('.filter-button')) {
+          document.dispatchEvent(new CustomEvent('showFilterModal'))
         }
 
-        this.loadData(endpoint).then(() => this.render())
-      }
+        if (event.target.closest('.pagination-button') && !event.target.closest('.pagination-button').classList.contains('disabled')) {
+          const page = event.target.closest('.pagination-button').dataset.page
+          let endpoint = `${this.endpoint}?page=${page}`
 
-      if (event.target.closest('.filter-button')) {
-        document.dispatchEvent(new CustomEvent('showFilterModal', {
-          detail: {
-            endpoint: this.endpoint
+          if (this.filterQuery) {
+            endpoint = `${endpoint}&${this.filterQuery}`
           }
-        }))
-      }
-      const paginationButtons = this.shadow.querySelectorAll('.pagination-button:not(.disabled)')
-      paginationButtons.forEach(button => {
-        button.addEventListener('click', async () => {
-          const page = button.dataset.page
-          const endpointWithPage = this.filterQuery
-            ? `${this.endpoint}?${this.filterQuery}&page=${page}`
-            : `${this.endpoint}?page=${page}`
-          await this.loadData(endpointWithPage)
-          this.render()
+
+          this.loadData(endpoint).then(() => this.render())
+        }
+
+        if (event.target.closest('.filter-button')) {
+          document.dispatchEvent(new CustomEvent('showFilterModal', {
+            detail: {
+              endpoint: this.endpoint
+            }
+          }))
+        }
+        const paginationButtons = this.shadow.querySelectorAll('.pagination-button:not(.disabled)')
+        paginationButtons.forEach(button => {
+          button.addEventListener('click', async () => {
+            const page = button.dataset.page
+            const endpointWithPage = this.filterQuery
+              ? `${this.endpoint}?${this.filterQuery}&page=${page}`
+              : `${this.endpoint}?page=${page}`
+            await this.loadData(endpointWithPage)
+            this.render()
+          })
         })
       })
-    })
+    }
   }
-}
+
 
 customElements.define('promoters-table-component', PromoterTable)
