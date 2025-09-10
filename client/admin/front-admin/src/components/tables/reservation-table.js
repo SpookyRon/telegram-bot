@@ -1,11 +1,11 @@
 import { store } from '../../redux/store.js'
 import { showFormElement } from '../../redux/crud-slice.js'
 
-class FaqTable extends HTMLElement {
+class ReservationTable extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
-    this.endpoint = '/api/admin/faqs'
+    this.endpoint = '/api/admin/reservations'
     this.filterQuery = null
     this.unsubscribe = null
   }
@@ -307,7 +307,7 @@ class FaqTable extends HTMLElement {
       tableRegisterData.appendChild(tableRegisterList)
 
       const fieldLabels = {
-        title: 'Título',
+        name: 'Nombre',
         createdAt: 'Fecha de creación',
         updatedAt: 'Última actualización',
         id: 'ID',
@@ -413,4 +413,4 @@ class FaqTable extends HTMLElement {
   }
 }
 
-customElements.define('faqs-table-component', FaqTable)
+customElements.define('reservation-table-component', ReservationTable)

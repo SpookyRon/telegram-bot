@@ -3,19 +3,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('faqs', {
+    await queryInterface.createTable('reservations', {
       id: {
+        // aquí usamos sequelize. en vez de datatypes, porque no es un modelo, es una migracion
+        // y no tenemos que usar el modelo, sino el tipo de dato que queremos usar
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
       },
-      title: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      content: {
-        type: Sequelize.TEXT,
+      email: {
+        type: Sequelize.STRING,
         allowNull: false
       },
       createdAt: {
@@ -33,6 +35,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('faqs')
+    await queryInterface.dropTable('reservations')
   }
 }

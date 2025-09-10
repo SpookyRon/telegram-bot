@@ -2,11 +2,11 @@ import isEqual from 'lodash-es/isEqual'
 import { store } from '../../redux/store.js'
 import { refreshTable } from '../../redux/crud-slice.js'
 
-class FaqForm extends HTMLElement {
+class ReservationForm extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
-    this.endpoint = '/api/admin/faqs'
+    this.endpoint = '/api/admin/reservations'
     this.unsubscribe = null
     this.formElementData = null
   }
@@ -49,8 +49,20 @@ class FaqForm extends HTMLElement {
         <form>
           <input type="hidden" name="id" />
           <div class="form-element">
+            <label for="name">Título:</label>
+            <input type="text" id="name" name="name" placeholder="Nombre">
+          </div>
+          <div class="form-element">
             <label for="title">Título:</label>
             <input type="text" id="title" name="title" placeholder="Pregunta">
+          </div>
+          <div class="form-element">
+            <label for="buttonText">Texto del botón:</label>
+            <input type="text" id="buttonText" name="buttonText" placeholder="Texto del botón">
+          </div>
+          <div class="form-element">
+            <label for="buttonLink">"Enlace del botón:</label>
+            <input type="text" id="buttonLink" name="buttonLink" placeholder="Enlace del botón">
           </div>
           <div class="form-element">
             <label for="content">Contenido:</label>
@@ -102,11 +114,11 @@ class FaqForm extends HTMLElement {
           this.resetForm()
 
           document.dispatchEvent(new CustomEvent('notice', {
-            detail: { message: 'FAQ guardado correctamente', type: 'success' }
+            detail: { message: 'Reserva guardada correctamente', type: 'success' }
           }))
         } catch (error) {
           document.dispatchEvent(new CustomEvent('notice', {
-            detail: { message: 'Error al guardar el FAQ', type: 'error' }
+            detail: { message: 'Error al guardar la reserva', type: 'error' }
           }))
         }
       }
@@ -126,4 +138,4 @@ class FaqForm extends HTMLElement {
   }
 }
 
-customElements.define('faqs-form-component', FaqForm)
+customElements.define('reservation-form-component', ReservationForm)
