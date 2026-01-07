@@ -10,25 +10,29 @@ module.exports = {
         autoIncrement: true,
         allowNull: false
       },
+      promoterId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      townId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      spotId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      categoryId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       title: {
         type: Sequelize.STRING,
         allowNull: false
       },
       description: {
-        type: Sequelize.TEXT
-      },
-      date: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      location: {
-        type: Sequelize.STRING
-      },
-      categoryId: {
-        type: Sequelize.INTEGER,
-        references: { model: 'event_categories', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        type: Sequelize.TEXT,
+        allowNull: true
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -41,6 +45,21 @@ module.exports = {
       deletedAt: {
         type: Sequelize.DATE
       }
+    })
+    await queryInterface.addIndex('events', ['promoterId'], {
+      name: 'events_promoterId'
+    })
+
+    await queryInterface.addIndex('events', ['townId'], {
+      name: 'events_townId'
+    })
+
+    await queryInterface.addIndex('events', ['spotId'], {
+      name: 'events_spotId'
+    })
+
+    await queryInterface.addIndex('events', ['categoryId'], {
+      name: 'events_categoryId'
     })
   },
 

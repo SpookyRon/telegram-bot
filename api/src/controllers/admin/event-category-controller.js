@@ -118,6 +118,21 @@ exports.delete = async (req, res, next) => {
   }
 }
 
+exports.getCategories = async (req, res, next) => {
+  try {
+    const result = await EventCategory.findAll()
+
+    const response = result.map(item => ({
+      label: item.name,
+      value: item.id
+    }))
+
+    res.status(200).send(response)
+  } catch (err) {
+    next(err)
+  }
+}
+
 // que dos formas tenemos para enviar datos al servidor? los query y los params *examen*
 // Redis es una base de datos en memoria, es decir, que almacena los datos en la memoria RAM y no en el disco duro. Esto hace que sea muy rápida, pero también significa que los datos se pierden cuando se apaga el servidor. Redis es muy útil para almacenar datos temporales o para hacer caché de datos que se usan con frecuencia. También se puede usar como base de datos principal, pero hay que tener en cuenta que los datos se perderán si el servidor se apaga. Redis es muy fácil de usar y tiene una gran cantidad de funciones avanzadas, como la posibilidad de almacenar listas, conjuntos y hashes. También tiene soporte para pub/sub, lo que permite enviar mensajes entre diferentes procesos. Redis es muy popular entre los desarrolladores y se usa en muchas aplicaciones web modernas.
 // neo4j es una base de datos orientada a grafos, lo que significa que almacena los datos en forma de nodos y relaciones entre ellos. Esto hace que sea muy fácil de usar para almacenar datos que tienen una estructura jerárquica o que están relacionados entre sí. Neo4j es muy rápido y escalable, lo que lo hace ideal para aplicaciones web modernas. También tiene una gran cantidad de funciones avanzadas, como la posibilidad de hacer consultas complejas y de almacenar datos en tiempo real. Neo4j es muy popular entre los desarrolladores y se usa en muchas aplicaciones web modernas.

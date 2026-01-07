@@ -74,7 +74,7 @@ module.exports = function (sequelize, DataTypes) {
   )
 
   Model.associate = function (models) {
-
+    Model.hasMany(models.Event, { as: 'events', foreignKey: 'categoryId' })
   }
 
   return Model

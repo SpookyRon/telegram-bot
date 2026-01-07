@@ -1,11 +1,10 @@
 module.exports = (mongoose) => {
   const schema = mongoose.Schema(
     {
-      title: String,
-      description: String,
-      isActive: {
-        type: Boolean,
-        default: true
+      name: String,
+      items: {
+        type: Map,
+        of: mongoose.Schema.Types.Mixed
       },
       deletedAt: Date
     },

@@ -74,7 +74,11 @@ module.exports = function (sequelize, DataTypes) {
   )
 
   Model.associate = function (models) {
-
+    Model.hasOne(models.UserCredential, { as: 'userCredential', foreignKey: 'userId' })
+    Model.hasMany(models.UserActivationToken, { as: 'userActivationTokens', foreignKey: 'userId' })
+    Model.hasOne(models.UserActivationToken, { as: 'userActivationToken', foreignKey: 'userId', scope: { used: false } })
+    Model.hasMany(models.UserResetPasswordToken, { as: 'userResetPasswordTokens', foreignKey: 'userId' })
+    Model.hasOne(models.UserResetPasswordToken, { as: 'userResetPasswordToken', foreignKey: 'userId', scope: { used: false } })
   }
 
   return Model

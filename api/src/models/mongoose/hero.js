@@ -2,13 +2,8 @@ module.exports = (mongoose) => {
   const schema = mongoose.Schema(
     {
       name: String,
-      title: String,
-      description: String,
-      buttonText: String,
-      buttonLink: String,
-      isActive: {
-        type: Boolean,
-        default: true
+      locales: {
+        type: mongoose.Schema.Types.Mixed
       },
       deletedAt: Date
     },
@@ -16,6 +11,5 @@ module.exports = (mongoose) => {
   )
 
   const Hero = mongoose.model('Hero', schema, 'heroes')
-
   return Hero
 }

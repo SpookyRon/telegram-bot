@@ -1,0 +1,154 @@
+<delete-element-modal-component></delete-element-modal-component>
+<image-gallery-component></image-gallery-component>
+<message-component></message-component>
+
+<header-component>
+  <row-component options='{"columns":"8fr 2fr", "height":"100px"}'>
+    <column-component>
+      <logo-component title="GameXop"></logo-component>
+    </column-component>
+    <column-component options='{"justifyContent":"flex-end"}'>
+      <menu-component menu="admin"></menu-component>
+    </column-component>
+  </row-component>
+</header-component>
+
+<main-component>
+  <crud-component>
+    <!-- <table-filter
+      slot='filter'
+      url='/api/admin/users'
+    /> -->
+
+    <table-component
+      slot="table"
+      endpoint="/api/admin/cards"
+      structure="{
+        'headers': [
+          {'label': 'Nombre', 'field': 'name'},
+          {'label': 'Fecha de creación', 'field': 'createdAt'},
+          {'label': 'Fecha de actualización', 'field': 'updatedAt'}
+        ],
+        'recordButtons': ['edit', 'remove'],
+        'tableButtons': ['filterButton']
+      }"/>
+    </table-component>
+
+    <form-component
+      slot="form"
+      endpoint="/api/admin/cards"
+      structure="{
+        'tabs': [
+          {'name': 'general', 'label': 'General'},
+          {'name': 'header', 'label': 'Texto de cabecera'},
+          {'name': 'images', 'label': 'Imágenes'}
+        ],
+        'inputs': {
+          'general': {
+            'noLocale': [
+              {'name': 'id', 'element':'input', 'type': 'hidden'},
+              {'name': 'name', 'element':'input', 'type': 'text', 'label': 'Nombre', 'width': 'full-width'},
+              {'element': 'dependants', 'childs': [
+                {
+                  'name': 'cards-items', 
+                  'label': 'Tarjetas',
+                  'locale': true,
+                  'structure': [
+                    {'element': 'subform', 'width': 'half-width', 'endpoint': '/api/admin/cards-items', 'structure': 
+                      {
+                        'tabs': [
+                          {'name': 'general', 'label': 'General'},
+                          {'name': 'images', 'label': 'Imágenes'}
+                        ],
+                        'inputs': {
+                          'general': {
+                            'noLocale': [
+                              {'name': 'id', 'element':'input', 'type': 'hidden'},
+                              {'name': 'title', 'element':'input', 'type': 'text', 'label': 'Título', 'width': 'full-width'}
+                            ]
+                          },
+                          'images': {
+                            'noLocale': [
+                              {'name': 'cardImage', 'element':'input', 'type': 'image', 'label': 'Imagen de tarjeta', 'width': 'one-third-width', 'quantity': 'single', 'imageConfigurations': 
+                                {
+                                  'thumbnail': {
+                                    'widthPx': '100',
+                                    'heightPx': '100'
+                                  },
+                                  'xs': {
+                                    'widthPx': '200',
+                                    'heightPx': '200'
+                                  },
+                                  'sm': {
+                                    'widthPx': '200',
+                                    'heightPx': '200'
+                                  },
+                                  'md': {
+                                    'widthPx': '450',
+                                    'heightPx': '450'
+                                  },
+                                  'lg': {
+                                    'widthPx': '450',
+                                    'heightPx': '450'
+                                  }
+                                } 
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {'element': 'subtable', 'width': 'half-width', 'endpoint': '/api/admin/cards-items', 'structure': 
+                      {
+                        'headers': [
+                          {'label': 'Título', 'field': 'title'}
+                        ],
+                        'recordButtons': ['edit', 'remove']
+                      }
+                    }
+                  ]
+                }
+              ]}
+            ]
+          },
+          'header': {
+            'locale': [
+              {'name': 'title', 'element':'input', 'type': 'text', 'label': 'Título', 'width': 'full-width'},
+              {'name': 'description', 'element':'textarea', 'label': 'Descripción', 'width': 'full-width'}
+            ]
+          },
+          'images': {
+            'noLocale': [
+              {'name': 'cardsHeaderImage', 'element':'input', 'type': 'image', 'label': 'Imagen de cabecera', 'width': 'one-third-width', 'quantity': 'single', 'imageConfigurations': 
+                {
+                  'thumbnail': {
+                    'widthPx': '100',
+                    'heightPx': '100'
+                  },
+                  'xs': {
+                    'widthPx': '100',
+                    'heightPx': '100'
+                  },
+                  'sm': {
+                    'widthPx': '100',
+                    'heightPx': '100'
+                  },
+                  'md': {
+                    'widthPx': '450',
+                    'heightPx': '450'
+                  },
+                  'lg': {
+                    'widthPx': '450',
+                    'heightPx': '450'
+                  }
+                } 
+              }
+            ]
+          }
+        }
+      }"
+    />
+    </form-component>
+    
+  </crud-component>
+</main-component>

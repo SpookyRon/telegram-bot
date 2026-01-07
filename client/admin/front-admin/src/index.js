@@ -1,5 +1,14 @@
+import './redux/store.js'
+
 // Loader
 import './components/font-loader.js'
+
+// Media / Uploads (si los usas)
+import './components/upload-image-button.js'
+import './components/image-gallery.js'
+import './components/upload-file-button.js'
+import './components/file-gallery.js'
+import './components/roi-selection.js'
 
 // Forms
 import './components/forms/bots-form.js'
@@ -35,6 +44,16 @@ import './components/main.js'
 import './components/nav.js'
 import './components/page.js'
 import './components/notfound.js'
+import './components/user-area.js'
+import './components/row.js'
+import './components/column.js'
+
+// Componentes genéricos (base building blocks)
+import './components/crud.js'
+import './components/table.js'
+import './components/table-filter.js'
+
+import './components/chat.js'
 
 // Modals & Messages
 import './components/delete-modal.js'

@@ -5,6 +5,16 @@ const app = express()
 const userAgentMiddleware = require('./middlewares/user-agent')
 const errorHandlerMiddleware = require('./middlewares/error-handler')
 const userTrackingMiddleware = require('./middlewares/user-tracking')
+const exposeServiceMiddleware = require('./middlewares/expose-service')
+const IORedis = require('ioredis')
+const redisClient = new IORedis(process.env.REDIS_URL)
+const suscriberClient = new IORedis(process.env.REDIS_URL)
+require('./events')(redisClient, suscriberClient)
+
+app.use((req, res, next) => {
+  req.redisClient = redisClient
+  next()
+})
 // si llamo a la carpeta routes se ejecuta el index.js que se encuentra dentro de la carpeta routes, y si no existe, se ejecuta el archivo que se llama igual que la carpeta, en este caso routes.js
 const routes = require('./routes')
 
@@ -13,6 +23,7 @@ const routes = require('./routes')
 app.use(express.json({ limit: '10mb', extended: true }))
 app.use(userAgentMiddleware)
 app.use(userTrackingMiddleware)
+app.use(...Object.values(exposeServiceMiddleware))
 
 app.use('/api', routes)
 
