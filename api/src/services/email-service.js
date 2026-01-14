@@ -3,9 +3,9 @@ const ejs = require('ejs')
 const nodemailer = require('nodemailer')
 const { google } = require('googleapis')
 const OAuth2 = google.auth.OAuth2
-const sequelizeDb = require('.../models/sequelize')
+const sequelizeDb = require('../models/sequelize')
 // const Email = sequelizeDb.Email
-const sentEmail = sequelizeDb.SentEmail
+const Email = sequelizeDb.Email
 const EmailError = sequelizeDb.EmailError
 
 module.exports = class EmailService {
@@ -89,10 +89,10 @@ module.exports = class EmailService {
           html
         }
 
-        if(attachments.length) {
+        if (attachments.length) {
           mailOptions.attachments = attachments
         }
-        
+
         this.transport.sendMail(mailOptions, function (err, result) {
           if (err) {
             EmailError.create(
@@ -104,7 +104,7 @@ module.exports = class EmailService {
               }
             )
           } else {
-            sentEmail.create(
+            Email.create(
               {
                 userId: user.id,
                 userType,
@@ -121,8 +121,9 @@ module.exports = class EmailService {
       console.log(err)
     }
   }
+
   emailReaded (uuid) {
-    sentEmail.update(
+    Email.update(
       {
         readedAt: new Date()
       }

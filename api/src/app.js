@@ -1,12 +1,14 @@
 const express = require('express')
 // express es un framework de nodejs que se usa para crear aplicaciones web y APIs, es el framework mas usado en nodejs, y es el que usamos para crear el servidor
 // API es un conjunto de endpoints, rutas, urls, que se pueden usar para interactuar con la aplicacion, y es lo que vamos a crear en este proyecto
+
 const app = express()
 const userAgentMiddleware = require('./middlewares/user-agent')
 const errorHandlerMiddleware = require('./middlewares/error-handler')
 const userTrackingMiddleware = require('./middlewares/user-tracking')
 const exposeServiceMiddleware = require('./middlewares/expose-service')
 const IORedis = require('ioredis')
+
 const redisClient = new IORedis(process.env.REDIS_URL)
 const suscriberClient = new IORedis(process.env.REDIS_URL)
 require('./events')(redisClient, suscriberClient)
@@ -23,10 +25,11 @@ const routes = require('./routes')
 app.use(express.json({ limit: '10mb', extended: true }))
 app.use(userAgentMiddleware)
 app.use(userTrackingMiddleware)
+app.use(errorHandlerMiddleware)
 app.use(...Object.values(exposeServiceMiddleware))
 
 app.use('/api', routes)
 
-app.use(errorHandlerMiddleware)
+
 
 module.exports = app

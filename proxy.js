@@ -16,12 +16,22 @@ const options = {
   }
 };
 
-app.use('/api', createProxyMiddleware(options));
-
 options.target = 'http://localhost:5171';
 app.use('/admin', createProxyMiddleware(options));
+
+options.target = 'http://localhost:5178';
+app.use('/auth', createProxyMiddleware(options));
+
+options.target = 'http://localhost:8080';
+app.use('/api', createProxyMiddleware(options));
 
 options.target = 'http://localhost:5177';
 app.use('/', createProxyMiddleware(options));
 
-app.listen(80, '127.0.0.1');
+const server = app.listen(80, '127.0.0.1', () => {
+  console.log('Proxy OK en http://dev-youthing.com (80)')
+})
+
+server.on('error', (err) => {
+  console.error('Proxy NO pudo levantar el puerto 80:', err.code, err.message)
+})
