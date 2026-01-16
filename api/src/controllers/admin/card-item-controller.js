@@ -4,7 +4,6 @@ const Card = mongooseDb.Card
 
 exports.create = async (req, res) => {
   try {
-    console.log(req.body)
     const localeKey = Object.keys(req.body.locales)[0]
     req.body.locales[localeKey].id = uuid.v4()
     req.body.locales[localeKey].createdAt = new Date()

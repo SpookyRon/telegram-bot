@@ -7,11 +7,13 @@ const userAgentMiddleware = require('./middlewares/user-agent')
 const errorHandlerMiddleware = require('./middlewares/error-handler')
 const userTrackingMiddleware = require('./middlewares/user-tracking')
 const exposeServiceMiddleware = require('./middlewares/expose-service')
-const IORedis = require('ioredis')
+const { createClient } = require('redis')
 
-const redisClient = new IORedis(process.env.REDIS_URL)
-const suscriberClient = new IORedis(process.env.REDIS_URL)
-require('./events')(redisClient, suscriberClient)
+const redisClient = createClient({ url: process.env.REDIS_URL })
+redisClient.connect().catch(console.error)
+const subscriberClient = redisClient.duplicate()
+subscriberClient.connect().catch(console.error)
+require('./events')(redisClient, subscriberClient)
 
 app.use((req, res, next) => {
   req.redisClient = redisClient
@@ -29,7 +31,5 @@ app.use(errorHandlerMiddleware)
 app.use(...Object.values(exposeServiceMiddleware))
 
 app.use('/api', routes)
-
-
 
 module.exports = app

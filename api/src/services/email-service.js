@@ -5,7 +5,7 @@ const { google } = require('googleapis')
 const OAuth2 = google.auth.OAuth2
 const sequelizeDb = require('../models/sequelize')
 // const Email = sequelizeDb.Email
-const Email = sequelizeDb.Email
+const SentEmail = sequelizeDb.SentEmail
 const EmailError = sequelizeDb.EmailError
 
 module.exports = class EmailService {
@@ -104,7 +104,7 @@ module.exports = class EmailService {
               }
             )
           } else {
-            Email.create(
+            SentEmail.create(
               {
                 userId: user.id,
                 userType,

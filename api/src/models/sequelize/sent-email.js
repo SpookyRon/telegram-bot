@@ -46,7 +46,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'sent_emails',
+    tableName: 'sent_email',
     timestamps: true,
     paranoid: true,
     indexes: [
@@ -63,7 +63,6 @@ module.exports = function (sequelize, DataTypes) {
 
   SentEmail.associate = function (models) {
     SentEmail.belongsTo(models.User, { as: 'user', foreignKey: 'userId' })
-    SentEmail.belongsTo(models.Promoter, { as: 'promoter', foreignKey: 'userId' })
     SentEmail.belongsTo(models.Customer, { as: 'customer', foreignKey: 'userId' })
   }
 

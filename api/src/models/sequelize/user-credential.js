@@ -49,7 +49,7 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       lastPasswordChange: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DATE,
         allowNull: false
       },
       createdAt: {

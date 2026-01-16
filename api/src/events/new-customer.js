@@ -7,12 +7,12 @@ exports.handleEvent = async (redisClient, subscriberClient) => {
       const data = JSON.parse(message)
 
       const authorizationService = new AuthorizationService()
-      const activationUrl = await authorizationService.createActivationToken(data.id, 'user')
+      const activationUrl = await authorizationService.createActivationToken(data.id, 'customer')
 
       const emailService = new EmailService('gmail')
       await emailService.sendEmail(
         data,
-        'user',
+        'customer',
         'activaationUrl',
         { name: data.name, activationUrl }
       )

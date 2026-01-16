@@ -75,7 +75,6 @@ module.exports = class AuthorizationService {
     })
 
     const url = `${process.env.API_URL}/cuenta/reset?token=${token}`
-    console.log(url)
     return url
   }
 

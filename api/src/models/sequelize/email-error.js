@@ -57,7 +57,6 @@ module.exports = function (sequelize, DataTypes) {
 
   Model.associate = function (models) {
     Model.belongsTo(models.User, { as: 'user', foreignKey: 'userId' })
-    Model.belongsTo(models.Promoter, { as: 'promoter', foreignKey: 'userId' })
     Model.belongsTo(models.Customer, { as: 'customer', foreignKey: 'userId' })
   }
 

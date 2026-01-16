@@ -214,10 +214,7 @@ class UserForm extends HTMLElement {
               </div>
             </div>
             <div class="tab-content" data-tab="images">
-              <div class="form-element">
-                <label for="name">Imagen:</label>
-                <input type="text" id="name" name="name" placeholder="Escribe tu nombre">
-              </div>
+
             </div>
           </form>
         </div>        
@@ -261,6 +258,8 @@ class UserForm extends HTMLElement {
         const endpoint = id ? `${this.endpoint}/${id}` : this.endpoint
         const method = id ? 'PUT' : 'POST'
         delete formDataJson.id
+
+        console.log(formDataJson)
 
         try {
           const response = await fetch(endpoint, {

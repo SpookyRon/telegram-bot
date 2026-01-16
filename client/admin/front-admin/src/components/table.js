@@ -555,7 +555,6 @@ class Table extends HTMLElement {
 
           this.sortableData = await fetch(url).then(response => response.json())
 
-          console.log(this.sortableData)
           await this.renderSortable(table, this.sortableData)
         }
       }
@@ -745,7 +744,6 @@ class Table extends HTMLElement {
 
       const row = document.createElement('div')
       row.classList.add('sortable-row')
-      console.log(element)
       row.textContent = `${element.label}: ${element.value}`
       row.dataset.id = element.id
 

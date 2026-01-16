@@ -68,8 +68,6 @@ module.exports = function (sequelize, DataTypes) {
     Model.hasOne(models.CustomerActivationToken, { as: 'customerActivationToken', foreignKey: 'customerId', scope: { used: false } })
     Model.hasMany(models.CustomerResetPasswordToken, { as: 'customerResetPasswordTokens', foreignKey: 'customerId' })
     Model.hasOne(models.CustomerResetPasswordToken, { as: 'customerResetPasswordToken', foreignKey: 'customerId', scope: { used: false } })
-    Model.hasMany(models.CustomerEvent, { as: 'customerEvents', foreignKey: 'customerId' })
-    Model.belongsToMany(models.Event, { as: 'events', through: models.CustomerEvent, foreignKey: 'customerId' })
     Model.hasMany(models.CustomerBot, { as: 'customerBots', foreignKey: 'customerId' })
     Model.belongsToMany(models.Bot, { as: 'bots', through: models.CustomerBot, foreignKey: 'customerId' })
   }

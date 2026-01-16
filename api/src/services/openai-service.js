@@ -60,8 +60,6 @@ module.exports = class OpenAIService {
 
   async runStatus () {
     try {
-      console.log(this.run.status)
-
       if (this.run.status === 'completed') {
         const messages = await this.openai.beta.threads.messages.list(this.run.thread_id)
         this.messages = messages.data

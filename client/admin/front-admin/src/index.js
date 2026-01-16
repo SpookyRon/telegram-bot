@@ -49,9 +49,9 @@ import './components/row.js'
 import './components/column.js'
 
 // Componentes genéricos (base building blocks)
-import './components/crud.js'
-import './components/table.js'
-import './components/table-filter.js'
+// import './components/crud.js'
+// import './components/table.js'
+// import './components/table-filter.js'
 
 import './components/chat.js'
 

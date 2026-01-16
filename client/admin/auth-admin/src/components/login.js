@@ -152,11 +152,9 @@ class Login extends HTMLElement {
         </div>
         `
 
-    const form = this.shadow.querySelector('form')
-
-    form.addEventListener('submit', (event) => {
+    this.shadow.querySelector('form').addEventListener('submit', (event) => {
       event.preventDefault()
-      this.submitForm(form)
+      this.submitForm(event)
     })
   }
 

@@ -56,10 +56,9 @@ module.exports = function (sequelize, DataTypes) {
   })
 
   Model.associate = function (models) {
-    Model.hasMany(models.SentEmail, { as: 'sentEmails', foreignKey: 'emailId' })
-    Model.hasMany(models.EmailError, { as: 'emailErrors', foreignKey: 'emailId' })
+    Model.hasMany(models.SentEmail, { as: 'sentEmail', foreignKey: 'emailId' })
+    Model.hasMany(models.EmailError, { as: 'emailError', foreignKey: 'emailId' })
     Model.belongsToMany(models.Customer, { through: models.SentEmail, as: 'customers', foreignKey: 'emailId' })
-    Model.belongsToMany(models.Promoter, { through: models.SentEmail, as: 'promoters', foreignKey: 'emailId' })
   }
 
   return Model
