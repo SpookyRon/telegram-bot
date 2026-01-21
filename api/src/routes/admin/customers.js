@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/admin/customer-controller.js')
+const authCookie = require('../../middlewares/auth-cookie.js')
 
-router.post('/', controller.create)
-router.get('/', controller.findAll)
-router.get('/:id', controller.findOne)
-router.put('/:id', controller.update)
-router.delete('/:id', controller.delete)
+router.post('/', [authCookie], controller.create)
+router.get('/', [authCookie], controller.findAll)
+router.get('/:id', [authCookie], controller.findOne)
+router.put('/:id', [authCookie], controller.update)
+router.delete('/:id', [authCookie], controller.delete)
 
 module.exports = router

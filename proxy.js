@@ -34,10 +34,4 @@ app.use('/cuenta', createProxyMiddleware(options));
 options.target = 'http://localhost:5177';
 app.use('/', createProxyMiddleware(options));
 
-const server = app.listen(80, '127.0.0.1', () => {
-  console.log('Proxy OK en http://dev-youthing.com (80)')
-})
-
-server.on('error', (err) => {
-  console.error('Proxy NO pudo levantar el puerto 80:', err.code, err.message)
-})
+app.listen(80, '127.0.0.1')

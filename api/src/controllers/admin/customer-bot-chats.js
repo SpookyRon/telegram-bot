@@ -1,10 +1,10 @@
 const sequelizeDb = require('../../models/sequelize')
-const CustomerEvent = sequelizeDb.CustomerEvent
+const CustomerBotChats = sequelizeDb.CustomerBotChats
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = async (req, res, next) => {
   try {
-    const data = await CustomerEvent.create(req.body)
+    const data = await CustomerBotChats.create(req.body)
     res.status(200).send(data)
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
@@ -16,35 +16,35 @@ exports.create = async (req, res, next) => {
 
 exports.findAll = async (req, res, next) => {
   try {
-    const customerId = req.query.customerId
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.size) || 10
+    const offset = (page - 1) * limit
+    const whereStatement = {}
 
-    const result = await CustomerEvent.findAll({
-      where: {
-        customerId: {
-          [Op.eq]: customerId
-        }
-      },
-      attributes: ['id', 'customerId', 'eventId'],
-      order: [['createdAt', 'DESC']],
-      include: [
-        {
-          model: sequelizeDb.Event,
-          as: 'event',
-          include: [
-            {
-              model: sequelizeDb.Town,
-              as: 'town',
-              attributes: ['id', 'name']
-            },
-            {
-              model: sequelizeDb.Promoter,
-              as: 'promoter',
-              attributes: ['id', 'name']
-            }
-          ]
-        }
-      ]
+    for (const key in req.query) {
+      if (req.query[key] !== '' && req.query[key] !== 'null' && key !== 'page' && key !== 'size') {
+        whereStatement[key] = { [Op.substring]: req.query[key] }
+      }
+    }
+
+    const condition = Object.keys(whereStatement).length > 0
+      ? { [Op.and]: [whereStatement] }
+      : {}
+
+    const result = await CustomerBotChats.findAndCountAll({
+      where: condition,
+      attributes: ['id', 'customerBotId', 'emisor', 'message', 'createdAt', 'updatedAt'],
+      limit,
+      offset,
+      order: [['createdAt', 'DESC']]
     })
+
+    result.meta = {
+      total: result.count,
+      pages: Math.ceil(result.count / limit),
+      currentPage: page,
+      size: limit
+    }
 
     res.status(200).send(result)
   } catch (err) {
@@ -55,7 +55,7 @@ exports.findAll = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const id = req.params.id
-    const data = await CustomerEvent.findByPk(id)
+    const data = await CustomerBotChats.findByPk(id)
 
     if (!data) {
       const err = new Error()
@@ -73,7 +73,7 @@ exports.findOne = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   try {
     const id = req.params.id
-    const [numberRowsAffected] = await CustomerEvent.update(req.body, { where: { id } })
+    const [numberRowsAffected] = await CustomerBotChats.update(req.body, { where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()
@@ -97,7 +97,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const id = req.params.id
-    const numberRowsAffected = await CustomerEvent.destroy({ where: { id } })
+    const numberRowsAffected = await CustomerBotChats.destroy({ where: { id } })
 
     if (numberRowsAffected !== 1) {
       const err = new Error()

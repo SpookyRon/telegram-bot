@@ -1,0 +1,15 @@
+<script type="module">
+  const endpoint = import.meta.env.VITE_API_URL
+  const token = localStorage.getItem('customer_jwt')
+
+  if (!token) window.location.replace('/login/cliente')  // o '/customer/login'
+
+  const r = await fetch(`${endpoint}/api/customer/me`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+
+  if (!r.ok) window.location.replace('/login/cliente')
+</script>
+<users-component></users-component>
+<panels-component></panels-component>
+

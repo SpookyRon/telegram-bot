@@ -5,8 +5,6 @@ class Message extends HTMLElement {
 
     document.addEventListener('notice', this.handleMessage.bind(this))
   }
-  // si alguien hace un 'notice' se lanzará el evento handleMessage, significa que muchos componentes pueden lanzar un mensaje y este componente lo recibirá
-  // pero en situaciones asi no se recomienda usar un event bus, que es un objeto que se encarga de gestionar los eventos y sus listeners sino que se usa redux o un store
 
   async connectedCallback () {
     await this.render()

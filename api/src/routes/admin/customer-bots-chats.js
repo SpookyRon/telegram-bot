@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const controller = require('../../controllers/admin/faqs-controller.js')
+const controller = require('../../controllers/admin/customer-bot-chats.js')
 const authCookie = require('../../middlewares/auth-cookie.js')
 
 router.post('/', [authCookie], controller.create)

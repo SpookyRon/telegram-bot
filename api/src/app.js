@@ -3,33 +3,54 @@ const express = require('express')
 // API es un conjunto de endpoints, rutas, urls, que se pueden usar para interactuar con la aplicacion, y es lo que vamos a crear en este proyecto
 
 const app = express()
-const userAgentMiddleware = require('./middlewares/user-agent')
 const errorHandlerMiddleware = require('./middlewares/error-handler')
+const userAgentMiddleware = require('./middlewares/user-agent')
 const userTrackingMiddleware = require('./middlewares/user-tracking')
 const exposeServiceMiddleware = require('./middlewares/expose-service')
+
 const { createClient } = require('redis')
+const session = require('express-session')
+const { RedisStore } = require('connect-redis')
 
 const redisClient = createClient({ url: process.env.REDIS_URL })
 redisClient.connect().catch(console.error)
 const subscriberClient = redisClient.duplicate()
 subscriberClient.connect().catch(console.error)
+
+const sessionConfig = session({
+  store: new RedisStore({ client: redisClient }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    domain: new URL(process.env.API_URL).hostname,
+    path: '/',
+    sameSite: 'Lax',
+    maxAge: 1000 * 60 * 3600
+  }
+})
+
 require('./events')(redisClient, subscriberClient)
 
 app.use((req, res, next) => {
   req.redisClient = redisClient
   next()
 })
-// si llamo a la carpeta routes se ejecuta el index.js que se encuentra dentro de la carpeta routes, y si no existe, se ejecuta el archivo que se llama igual que la carpeta, en este caso routes.js
+
 const routes = require('./routes')
 
-// Los middlewares que tienen que funcionar antes de las rutas, se ejecutan antes de que se ejecute la ruta
-// express.json es un middleware que hace que cada vez que recibes un json automaticamente lo convierte a un objeto de javascript, y lo guarda en la propiedad body del request, para que puedas usarlo en el controlador
+app.use(sessionConfig)
 app.use(express.json({ limit: '10mb', extended: true }))
-app.use(userAgentMiddleware)
 app.use(userTrackingMiddleware)
-app.use(errorHandlerMiddleware)
+app.use(userAgentMiddleware)
 app.use(...Object.values(exposeServiceMiddleware))
 
 app.use('/api', routes)
+app.use(errorHandlerMiddleware)
+
+const customerRoutes = require('./routes/customer/customer.js')
+app.use('/api/customer', customerRoutes)
 
 module.exports = app

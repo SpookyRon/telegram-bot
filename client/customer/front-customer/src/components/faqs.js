@@ -11,39 +11,35 @@ class Faqs extends HTMLElement {
     await this.render()
   }
 
-  async loadData () {
-    try {
-      const response = await fetch('/api/customer/faqs')
-
-      if (!response.ok) {
-        throw new Error(`Error fetching data: ${response.statusText}`)
+  loadData () {
+    this.data = [
+      {
+        title: '¿Qué elementos principales se incluyen en el diseño de un sitio web personalizado?',
+        content: 'Lorem 2 ipsum dolor sit amet consectetur adipisicing elit. Dolores praesentium ratione itaque earum aperiam aliquam, error culpa fugiat ea corporis impedit. Ea illo et facilis nulla esse distinctio iste nesciunt.'
+      },
+      {
+        title: '¿Cuáles son los principios más importantes del diseño de sitios web?',
+        content: 'Lorem 3 ipsum dolor sit amet consectetur adipisicing elit. Dolores praesentium ratione itaque earum aperiam aliquam, error culpa fugiat ea corporis impedit. Ea illo et facilis nulla esse distinctio iste nesciunt.'
+      },
+      {
+        title: '¿Qué pasos incluye el proceso de diseño web profesional?',
+        content: 'Lorem 3 ipsum dolor sit amet consectetur adipisicing elit. Dolores praesentium ratione itaque earum aperiam aliquam, error culpa fugiat ea corporis impedit. Ea illo et facilis nulla esse distinctio iste nesciunt.'
       }
-
-      this.data = await response.json()
-    } catch (error) {
-      console.error('Error loading data:', error)
-      this.data = []
-    }
+    ]
   }
 
   render () {
     this.shadow.innerHTML =
     /* html */`
+    
     <style>
-
       *{
-        box-sizing: border-box;
+         box-sizing: border-box;
       }
-
-      h1, h2, h3, h4, h5, h6, p{
-        margin: 0;
-      }
-
-      h1, h2, h3, h4, h5, h6, p, a, span, li, label, input, button{
-        font-family: "Nunito Sans", serif;
+      h1, h2, h3, h4, h5, h6, p, a, span,  li, label, input, button{
+        font-family: 'Nunito Sans', serif;
         font-optical-sizing: auto;
       }
-
       .faqs{
         background-color: hsl(0, 0%, 100%);
         padding: 2rem;
@@ -105,13 +101,13 @@ class Faqs extends HTMLElement {
       }
     </style>
 
-    <section class="faqs">
-      <div class="faqs-title">
-        <h3>Preguntas frecuentes</h3>
-      </div>
-      <div class="faqs-content"></div>
-    </section>
-    `
+<section class="faqs">
+<div class="faqs-title">
+  <h3>Preguntas frecuentes</h3>
+</div>
+<div class="faqs-content"></div>
+</section>
+`
 
     this.data.forEach(faq => {
       const faqsContainer = this.shadow.querySelector('.faqs-content')
@@ -139,12 +135,12 @@ class Faqs extends HTMLElement {
       summary.appendChild(faqButton)
 
       faqButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <title>plus</title>
-                  <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-                </svg>`
+            <title>plus</title>
+            <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+          </svg>`
 
       const faqContent = document.createElement('p')
-      faqContent.textContent = faq.description
+      faqContent.textContent = faq.content
       details.appendChild(faqContent)
     })
   }

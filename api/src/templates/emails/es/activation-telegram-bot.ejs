@@ -1,0 +1,51 @@
+<div
+    style="background:#f4f6fb;padding:40px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+    <div
+        style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.08);overflow:hidden;">
+
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:32px;text-align:center;">
+            <h1 style="margin:0;color:#ffffff;font-size:26px;font-weight:600;">
+                ¡Bienvenido, <%= data.name %>! 👋
+            </h1>
+            <p style="margin:12px 0 0;color:#e9e9ff;font-size:15px;">
+                Tu cuenta está a un paso de estar lista
+            </p>
+        </div>
+
+        <!-- Body -->
+        <div style="padding:32px;text-align:center;">
+            <p style="color:#555;font-size:16px;line-height:1.6;margin-bottom:24px;">
+                Estamos muy contentos de tenerte con nosotros.
+                Para empezar, solo tienes que activar tu cuenta y elegir una contraseña segura.
+            </p>
+
+            <!-- CTA -->
+            <a href="<%= data.activationUrl %>" style="
+            display:inline-block;
+            background:#667eea;
+            color:#ffffff;
+            text-decoration:none;
+            padding:14px 28px;
+            border-radius:10px;
+            font-size:16px;
+            font-weight:600;
+            box-shadow:0 8px 20px rgba(102,126,234,0.35);
+          ">
+                Activar mi cuenta
+            </a>
+
+            <p style="margin-top:24px;color:#888;font-size:13px;">
+                Si no has creado esta cuenta, puedes ignorar este mensaje.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div style="background:#fafafa;padding:20px;text-align:center;border-top:1px solid #eee;">
+            <p style="margin:0;color:#aaa;font-size:12px;">
+                © <%= new Date().getFullYear() %> Tu Plataforma · Todos los derechos reservados
+            </p>
+        </div>
+
+    </div>
+</div>

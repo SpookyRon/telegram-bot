@@ -21,7 +21,7 @@ class PageComponent extends HTMLElement {
 
   async getTemplate (path) {
     const routes = {
-      '/': 'home.html'
+      '/': 'home.html',
     }
     // es un objeto '/' que dice 'si path es igual a /, entonces carga home.html' si no existe, carga 404.html. entonces se lo paso a una funcion que
     // se encarga de cargar la pagina.

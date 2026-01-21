@@ -5,63 +5,116 @@ class Nav extends HTMLElement {
   }
 
   connectedCallback () {
+    this.loadData()
     this.render()
   }
 
+  loadData () {
+    this.data = [
+      {
+        subcategories: [
+          { categories: 'Inicio', link: '#dashboard' },
+          { categories: 'Usuarios', link: '#users' },
+          { categories: 'Estadísticas', link: '#analytics' },
+          { categories: 'Configuración', link: '#settings' },
+          { categories: 'Salir', link: '#logout' }
+        ]
+      }
+    ]
+  }
+
   render () {
-    this.shadowRoot.innerHTML =
-      /* html */`
+    const links = this.data[0].subcategories.map((item) => {
+      const isActive = item.link === '#users' ? 'active' : ''
+      return `
+        <li class="${isActive}">
+          <a href="${item.link}">
+            <span>${item.categories}</span>
+          </a>
+        </li>
+      `
+    }).join('')
+
+    this.shadow.innerHTML = /* html */`
       <style>
-        .controller {
-          border: none;
-          background: hsl(210, 22%, 18%); 
-          cursor: pointer;
-          border-radius: 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          padding: 10px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        }
-
-        .controller svg {
-          width: 30px;
-          height: 30px;
-        }
-
-        .controller rect {
-          rx: 4;
+        :host{
+          max-width: 20%;
+          width: 20%;
         }
         
-        .controller rect:nth-child(1) {
-          fill: hsl(210, 20%, 26%);
+        .nav {
+          width: 80%;
+          padding: 2rem 1rem;
+          height: 100vh;
+          background-color: #392d3aff;
         }
 
-        .controller rect:nth-child(2) {
-          fill: hsl(210, 15%, 24%);
+        .header {
+          padding: 2px 10px 2px 1px;
+          background-color: white;
+          color: black;
+          border: 3px solid #dee2e6;
+          border-radius: 5px;
+          height: min-content;
+          display: flex;
+          align-items: center;
+          justify-self: center;
         }
-
-        .controller rect:nth-child(3) {
-          fill: hsl(210, 20%, 26%);
+        .avatar img {
+          width: 3.5rem;
+          height: 3.5rem;
+          border-radius: 50%;
+          margin: 0.5rem;
+          border: 2px solid #c8cbcf;
         }
-
-        .controller rect:nth-child(4) {
-          fill: hsl(210, 20%, 26%);
+        .name-user {
+          font-size: 25px;
+          font-family: "Noto Sans", sans-serif;
+        }
+        .nav-links {
+          justify-self: center;
+          margin-top: 2rem;
+          display: flex;
+          flex-direction: column;
+          font-family: "Noto Sans", sans-serif;
+          font-size: 1.5rem;
+          font-weight: 700;
+          text-transform: uppercase;
+        }
+        .nav-links ul {
+          list-style: none;
+        }
+        .nav-links li a {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+          padding: 1rem;
+          color: white;
+          text-decoration: none;
+        }
+        .active {
+          background-color: #323a46ff;
+          color: white;
+          border-radius: 1rem;
         }
 
         
       </style>
-      <div class="header-menu">
-      <button class="controller">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-          <rect width="13" height="13" x="1" y="1" fill="#4d4e53" rx="4"></rect>
-          <rect width="13" height="13" x="18" y="1" fill="#d9d9da" rx="4"></rect>
-          <rect width="13" height="13" x="1" y="18" fill="#4d4e53" rx="4"></rect>
-          <rect width="13" height="13" x="18" y="18" fill="#4d4e53" rx="4"></rect>
-        </svg>
-      </button>
-      </div>
+      <section class="nav">
+        <div class="header">
+          <div class="avatar">
+            <img src="https://avatars.githubusercontent.com/u/12345678?v=4" alt="Avatar">
+          </div>
+          <div class="name-user">
+            <span>Mark Sánchez García</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <ul>${links}</ul>
+        </div>
+      </section>
     `
   }
 }
