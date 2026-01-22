@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('CustomerBot',
+  const CustomerBot = sequelize.define('CustomerBot',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -63,11 +63,11 @@ module.exports = function (sequelize, DataTypes) {
     }
   )
 
-  Model.associate = function (models) {
-    Model.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
-    Model.belongsTo(models.Bot, { as: 'bot', foreignKey: 'botId' })
-    Model.hasMany(models.CustomerBotChat, { as: 'customerBotChats', foreignKey: 'customerBotId' })
+  CustomerBot.associate = function (CustomerBots) {
+    CustomerBot.belongsTo(CustomerBots.Customer, { as: 'customer', foreignKey: 'customerId' })
+    CustomerBot.belongsTo(CustomerBots.Bot, { as: 'bot', foreignKey: 'botId' })
+    CustomerBot.hasMany(CustomerBots.CustomerBotChat, { as: 'customerBotChats', foreignKey: 'customerBotId' })
   }
 
-  return Model
+  return CustomerBot
 }

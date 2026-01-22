@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const authCustomer = require('../../middlewares/auth-customer.js')
+const authCustomerCookie = require('../../middlewares/auth-customer-cookie.js')
 
-router.get('/me', authCustomer, (req, res) => {
-  // auth-customer.js puso req.customerId
+router.get('/profile', authCustomerCookie, (req, res) => {
   res.status(200).send({ logged: true, customerId: req.customerId })
 })
 

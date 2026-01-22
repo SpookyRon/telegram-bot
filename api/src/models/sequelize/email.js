@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Email', {
+  const Email = sequelize.define('Email', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -55,11 +55,11 @@ module.exports = function (sequelize, DataTypes) {
     ]
   })
 
-  Model.associate = function (models) {
-    Model.hasMany(models.SentEmail, { as: 'sentEmail', foreignKey: 'emailId' })
-    Model.hasMany(models.EmailError, { as: 'emailError', foreignKey: 'emailId' })
-    Model.belongsToMany(models.Customer, { through: models.SentEmail, as: 'customers', foreignKey: 'emailId' })
+  Email.associate = function (Emails) {
+    Email.hasMany(Emails.SentEmail, { as: 'sentEmail', foreignKey: 'emailId' })
+    Email.hasMany(Emails.EmailError, { as: 'emailError', foreignKey: 'emailId' })
+    Email.belongsToMany(Emails.Customer, { through: Emails.SentEmail, as: 'customers', foreignKey: 'emailId' })
   }
 
-  return Model
+  return Email
 }

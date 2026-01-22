@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('EmailError', {
+  const EmailError = sequelize.define('EmailError', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -55,10 +55,10 @@ module.exports = function (sequelize, DataTypes) {
     ]
   })
 
-  Model.associate = function (models) {
-    Model.belongsTo(models.User, { as: 'user', foreignKey: 'userId' })
-    Model.belongsTo(models.Customer, { as: 'customer', foreignKey: 'userId' })
+  EmailError.associate = function (EmailErrors) {
+    EmailError.belongsTo(EmailErrors.User, { as: 'user', foreignKey: 'userId' })
+    EmailError.belongsTo(EmailErrors.Customer, { as: 'customer', foreignKey: 'userId' })
   }
 
-  return Model
+  return EmailError
 }

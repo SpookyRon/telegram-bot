@@ -123,7 +123,7 @@ module.exports = class EmailService {
   }
 
   emailReaded (uuid) {
-    Email.update(
+    SentEmail.update(
       {
         readedAt: new Date()
       }

@@ -203,39 +203,34 @@ class Login extends HTMLElement {
         </div>
         `
 
-    this.shadow.querySelector('form').addEventListener('submit', (event) => {
-      event.preventDefault()
-      this.submitForm(event)
-    })
-  }
+    const form = this.shadow.querySelector('form')
 
-  async submitForm (form) {
-    const endpoint = import.meta.env.VITE_API_URL
-    const formData = new FormData(form)
-    const formDataJson = Object.fromEntries(formData.entries())
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault()
+            const formData = new FormData(form)
+            const formDataJson = Object.fromEntries(formData.entries())
 
-    try {
-      const result = await fetch(`${endpoint}/api/auth/user/signin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formDataJson)
-      })
+            try {
+                const result = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/customer/signin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formDataJson)
+                })
 
-      if (result.ok) {
-        const data = await result.json()
-        if (data.token) localStorage.setItem('customer_jwt', data.token)
-          
-        window.location.href = data.redirection
-      } else {
-        const error = await result.json()
-        console.log(error.message)
-      }
-    } catch (error) {
-      console.log(error)
+                if (result.ok) {
+                    const data = await result.json()
+                    window.location.href = data.redirection
+                } else {
+                    const error = await result.json()
+                    console.log(error.message)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        })
     }
-  }
 }
 
 customElements.define('login-component', Login)

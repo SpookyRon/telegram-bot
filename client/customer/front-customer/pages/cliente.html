@@ -1,6 +1,6 @@
 <script type="module">
   const endpoint = import.meta.env.VITE_API_URL
-  const token = localStorage.getItem('customer_jwt')
+  const token = localStorage.getItem('customer')
 
   if (!token) window.location.replace('/login/cliente')  // o '/customer/login'
 

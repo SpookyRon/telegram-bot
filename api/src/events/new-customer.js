@@ -13,7 +13,7 @@ exports.handleEvent = async (redisClient, subscriberClient) => {
       await emailService.sendEmail(
         data,
         'customer',
-        'activaationUrl',
+        'activationUrl',
         { name: data.name, activationUrl }
       )
     } catch (error) {

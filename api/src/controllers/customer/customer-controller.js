@@ -1,15 +1,9 @@
 const sequelizeDb = require('../../models/sequelize')
 const Customer = sequelizeDb.Customer
 
-exports.me = async (req, res) => {
-  // auth-customer.js ya validó el JWT y puso req.customerId
-  res.status(200).send({ logged: true, customerId: req.customerId })
-}
-
 exports.create = async (req, res, next) => {
   try {
     const data = await Customer.create(req.body)
-    data.dataValues.botId = req.body.botId
     req.redisClient.publish('new-customer', JSON.stringify(data))
 
     res.status(200).send(data)

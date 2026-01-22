@@ -33,7 +33,6 @@ module.exports = class AuthorizationService {
     })
 
     const url = `${process.env.API_URL}/cuenta/activacion?token=${token}`
-
     return url
   }
 
@@ -75,6 +74,7 @@ module.exports = class AuthorizationService {
     })
 
     const url = `${process.env.API_URL}/cuenta/reset?token=${token}`
+    console.log(url)
     return url
   }
 

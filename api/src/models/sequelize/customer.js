@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Model = sequelize.define('Customer',
+  const Customer = sequelize.define('Customer',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -18,15 +18,15 @@ module.exports = function (sequelize, DataTypes) {
       },
       telephone: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       prefix: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       birthDate: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -62,15 +62,15 @@ module.exports = function (sequelize, DataTypes) {
     }
   )
 
-  Model.associate = function (models) {
-    Model.hasOne(models.CustomerCredential, { as: 'customerCredential', foreignKey: 'customerId' })
-    Model.hasMany(models.CustomerActivationToken, { as: 'customerActivationTokens', foreignKey: 'customerId' })
-    Model.hasOne(models.CustomerActivationToken, { as: 'customerActivationToken', foreignKey: 'customerId', scope: { used: false } })
-    Model.hasMany(models.CustomerResetPasswordToken, { as: 'customerResetPasswordTokens', foreignKey: 'customerId' })
-    Model.hasOne(models.CustomerResetPasswordToken, { as: 'customerResetPasswordToken', foreignKey: 'customerId', scope: { used: false } })
-    Model.hasMany(models.CustomerBot, { as: 'customerBots', foreignKey: 'customerId' })
-    Model.belongsToMany(models.Bot, { as: 'bots', through: models.CustomerBot, foreignKey: 'customerId' })
+  Customer.associate = function (Customers) {
+    Customer.hasOne(Customers.CustomerCredential, { as: 'customerCredential', foreignKey: 'customerId' })
+    Customer.hasMany(Customers.CustomerActivationToken, { as: 'customerActivationTokens', foreignKey: 'customerId' })
+    Customer.hasOne(Customers.CustomerActivationToken, { as: 'customerActivationToken', foreignKey: 'customerId', scope: { used: false } })
+    Customer.hasMany(Customers.CustomerResetPasswordToken, { as: 'customerResetPasswordTokens', foreignKey: 'customerId' })
+    Customer.hasOne(Customers.CustomerResetPasswordToken, { as: 'customerResetPasswordToken', foreignKey: 'customerId', scope: { used: false } })
+    Customer.hasMany(Customers.CustomerBot, { as: 'customerBots', foreignKey: 'customerId' })
+    Customer.belongsToMany(Customers.Bot, { as: 'bots', through: Customers.CustomerBot, foreignKey: 'customerId' })
   }
 
-  return Model
+  return Customer
 }

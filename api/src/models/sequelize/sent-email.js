@@ -46,7 +46,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'sent_email',
+    tableName: 'sent_emails',
     timestamps: true,
     paranoid: true,
     indexes: [
