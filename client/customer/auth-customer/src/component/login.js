@@ -198,7 +198,7 @@ class Login extends HTMLElement {
           </form>
 
           <div class="reset">
-            <a href="/admin/login/reset">Olvidé mi contraseña</a>
+            <a href="/cliente/login/reset">Olvidé mi contraseña</a>
           </div>
         </div>
         `
@@ -212,11 +212,12 @@ class Login extends HTMLElement {
 
             try {
                 const result = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/customer/signin`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formDataJson)
+                  method: 'POST',
+                  credentials: 'include',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(formDataJson)
                 })
 
                 if (result.ok) {

@@ -100,7 +100,12 @@ exports.logout = (req, res) => {
 }
 exports.profile = async (req, res) => {
   try {
-    const credential = await CustomerCredential.findByPk(req.session.customer.id)
+    const credentialId = req.session?.customer?.id
+    if (!credentialId) {
+      return res.status(401).send({ redirection: '/login' })
+    }
+
+    const credential = await CustomerCredential.findByPk(credentialId)
 
     if (!credential) {
       return res.status(404).send({ message: 'Usuario no encontrado' })
@@ -108,12 +113,12 @@ exports.profile = async (req, res) => {
 
     const customer = await Customer.findByPk(credential.customerId)
 
-    res.status(200).send({
+    return res.status(200).send({
       name: customer.name,
-      email: customer.email
+      email: credential.email
     })
   } catch (error) {
     console.log(error)
-    res.status(500).send({ message: 'Error al obtener perfil' })
+    return res.status(500).send({ message: 'Error al obtener perfil' })
   }
 }

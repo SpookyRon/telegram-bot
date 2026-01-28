@@ -5,7 +5,25 @@ class Panels extends HTMLElement {
   }
 
   async connectedCallback () {
-    await this.render()
+  // 1) Comprueba sesión (cookie) antes de renderizar el dashboard
+    try {
+      const r = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/customer/check-signin`, {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      if (!r.ok) {
+        const data = await r.json().catch(() => ({}))
+        window.location.href = data.redirection || '/cliente/login'
+        return
+      }
+
+      // 2) Si está logueado, renderiza normal
+      await this.render()
+    } catch (err) {
+      console.error(err)
+      window.location.href = '/cliente/login'
+    }
   }
 
   render () {
