@@ -43,7 +43,8 @@ module.exports = class EmailService {
     }
 
     this.template = {
-      activationUrl: { file: 'activation-url', subject: { es: 'Activación de cuenta', en: 'Account activation' } }
+      activationUrl: { file: 'activation-url', subject: { es: 'Activación de cuenta', en: 'Account activation' } },
+      activationTelegramBot: { file: 'activation-telegram-bot', subject: { es: 'Activa tu cuenta y tu bot', en: 'Activate your account and bot' } }
     }
   }
 

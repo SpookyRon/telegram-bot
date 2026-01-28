@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false
       },
       platform: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notNull: {
@@ -20,7 +20,7 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       name: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notNull: {
@@ -32,7 +32,7 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       description: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         allowNull: false,
         validate: {
           notNull: {
@@ -44,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       token: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notNull: {

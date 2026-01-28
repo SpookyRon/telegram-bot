@@ -1,11 +1,36 @@
+const crypto = require('crypto')
 const sequelizeDb = require('../../models/sequelize')
 const Customer = sequelizeDb.Customer
+const BotVerification = sequelizeDb.BotVerification
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = async (req, res, next) => {
   try {
-    const data = await Customer.create(req.body)
-    req.redisClient.publish('new-customer', JSON.stringify(data))
+    const botName = (req.body.botName || '').trim() || 'Telegram bot'
+
+    const payloadCustomer = {
+      name: req.body.name,
+      email: req.body.email
+    }
+
+    const data = await Customer.create(payloadCustomer)
+
+    const verificationCode = crypto.randomInt(0, 1000000).toString().padStart(6, '0')
+
+    await BotVerification.upsert({
+      email: data.email,
+      verificationCode,
+      telegramUserId: null
+    })
+
+    const redisPayload = {
+      ...data.toJSON(),
+      botName,
+      verificationCode
+    }
+
+    req.redisClient.publish('new-customer', JSON.stringify(redisPayload))
+
     res.status(200).send(data)
   } catch (err) {
     if (err.name === 'SequelizeValidationError') {
